@@ -1,0 +1,3 @@
+requests==2.20.0
+twint==1.1.4.3
+tweepy==3.6.0
