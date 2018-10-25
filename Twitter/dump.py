@@ -19,12 +19,12 @@ def ctrl_c(sig, frame):
 
 
 def following(c, username):
-    c.Output = "{}/following".format(username)
+    c.Output = "{}/Following".format(username)
     twint.run.Following(c)
 
 
 def followers(c, username):
-    c.Output = "{}/followers".format(username)
+    c.Output = "{}/Followers".format(username)
     twint.run.Followers(c)
 
 
