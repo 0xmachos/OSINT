@@ -23,7 +23,7 @@ def search(username, search_string, f):
     with open(filepath) as fp:  
         for line in fp:
             fields = line.strip().split('|')
-            names = "{}:{}".format(fields[1], fields[2])
+            names = "Name:{}\n  Handle:{}".format(fields[1], fields[2])
             if re.search(search_string, names, re.IGNORECASE):
                 print("{} match: \n  {}".format(f, names))
 
