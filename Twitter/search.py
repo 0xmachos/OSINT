@@ -17,26 +17,15 @@ def ctrl_c(sig, frame):
     sys.exit(0)
 
 
-def search_following(username, search_string):
+def search(username, search_string, f):
 
-    filepath = "{}/following".format(username)
+    filepath = "{}/{}".format(username, f)
     with open(filepath) as fp:  
         for line in fp:
             fields = line.strip().split('|')
             names = "{}:{}".format(fields[1], fields[2])
             if re.search(search_string, names, re.IGNORECASE):
-                print("Following match: {}".format(names))
-
-
-def search_followers(username, search_string):
-
-    filepath = "{}/followers".format(username)
-    with open(filepath) as fp:  
-        for line in fp:
-            fields = line.strip().split('|')
-            names = "{}:{}".format(fields[1], fields[2])
-            if re.search(search_string, names, re.IGNORECASE):
-                print("Followers match: {}".format(names))
+                print("{} match: \n  {}".format(f, names))
 
 
 def main():
@@ -53,8 +42,8 @@ def main():
     username = args.username
     search_string = args.search_string
     
-    search_following(username, search_string)
-    search_followers(username,search_string)
+    search(username, search_string, "Followers")
+    search(username, search_string, "Following")
 
     exit(0)
 
