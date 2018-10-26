@@ -11,6 +11,12 @@ import twint
 import sys
 import argparse
 import signal
+import os
+
+
+def directory_setup(username):
+    if not os.path.isdir(username): 
+        os.mkdir(username, mode=755)
 
 
 def ctrl_c(sig, frame):
@@ -42,6 +48,8 @@ def main():
     signal.signal(signal.SIGINT, ctrl_c)
     
     username = args.username
+    directory_setup(username)
+    
     c = twint.Config()
     c.Username = username
     c.User_full = True
