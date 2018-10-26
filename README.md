@@ -1,6 +1,7 @@
 # OSINT
 Scripts to automate Open Source Intelligence (OSINT)
 
+
 ## [Twitter](https://github.com/0xmachos/OSINT/tree/master/Twitter)
 
 ### `dump.py`
@@ -11,6 +12,10 @@ Scripts to automate Open Source Intelligence (OSINT)
 
 ### `device.py`
 - Print a sorted list of the device used to sent a users last 100 tweets
+
+### `birthday.py`
+- Search for tweets to a user which contain 'birthday' or 'bday'
+
 
 ## [Infrastructure](https://github.com/0xmachos/OSINT/tree/master/Infrastructure)
 
