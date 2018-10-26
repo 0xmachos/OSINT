@@ -10,39 +10,47 @@ import sys
 import tweepy
 import json
 import re
+import argparse
 from collections import Counter
 
 
-def main():
-    args = sys.argv[1:]
+def get_device(auth, username, count):
 
-    if len(args) == 0:
-    	print("./tweet-device.py @handle")
-    	exit(1)
-
-    username = sys.argv[1]
-    num_tweets_retrieved = 100
     device_regex = "(?<=>).*?(?=<)"
     results = []
+    
+    tweet_list = tweepy.API(auth).user_timeline(
+        screen_name=username, count=count)
+
+    for tweet in tweet_list:
+        device = re.findall(device_regex, tweet._json['source'])
+        for x in device:
+            results.append(x)
+
+    count=Counter(results)
+
+    for device, count in count.most_common():
+        print('{} : {}'.format(device, count))
+
+
+def main():
 
     auth = tweepy.OAuthHandler(
         'consumer_key', 'consumer_secret')
     auth.set_access_token('access_key',
                           'access_secret_key')
 
-    tweet_list = tweepy.API(auth).user_timeline(
-            screen_name=username, count=num_tweets_retrieved)
+    parser = argparse.ArgumentParser(description="Print the devices the target used to tweet")
+    parser.add_argument("-t", "--target", action='store', dest='username', required=True,  
+                        help="Targets Twitter username")
+    parser.add_argument("-c", "--count", action='store', dest='count', default=100,  
+                        help="Number of tweets to retrieve")
+    args = parser.parse_args()
 
+    username = args.username
+    count = args.count
 
-    for tweet in tweet_list:
-    	device = re.findall(device_regex, tweet._json['source'])
-    	for x in device:
-    		results.append(x)
-
-    count=Counter(results)
-
-    for device, count in count.most_common():
-   		print('{} : {}'.format(device, count))
+    get_device(auth, username ,count)
 
     exit(0)
 
