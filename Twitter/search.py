@@ -25,7 +25,7 @@ def search(username, search_string, f):
             fields = line.strip().split('|')
             names = "Name:{}\n  Handle:{}".format(fields[1], fields[2])
             if re.search(search_string, names, re.IGNORECASE):
-                print("{} match: \n  {}".format(f, names))
+                print("\n{} match: \n  {}".format(f, names))
 
 
 def main():
