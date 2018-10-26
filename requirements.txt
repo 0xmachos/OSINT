@@ -1,3 +1,4 @@
+tweepy==3.6.0
 requests==2.20.0
 twint==1.1.4.3
-tweepy==3.6.0
+beautifulsoup4==4.6.3
