@@ -8,11 +8,7 @@
 import sys
 import requests
 import json
-
-
-def usage():
-    print("Usage: ./ct-abuse.py target_domain")
-    exit(1)
+import argparse
 
 
 def get_subdomains (target_domain):
@@ -40,14 +36,13 @@ def get_subdomains (target_domain):
 
 
 def main():
-    args = sys.argv[1:]
 
-    if len(args) == 0:
-        usage()
+    parser = argparse.ArgumentParser(description="Enumerate HTTPS enabled subdomains via Certificate Transparency")
+    parser.add_argument("-t", "--target", action='store', dest='target_domain', required=True,  
+                        help="Domain to enumerate")
 
-    target_domain = sys.argv[1]
-
-    get_subdomains(target_domain)
+    args = parser.parse_args()
+    get_subdomains(args.target_domain)
 
     exit(0)
 
