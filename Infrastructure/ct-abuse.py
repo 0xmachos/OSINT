@@ -73,7 +73,7 @@ def main():
     signal.signal(signal.SIGINT, ctrl_c)
 
     domains = get_subdomains(args.target_domain)
-    print("  All domains: ")
+    print("  All domains ({}): ".format(len(domains)))
     for domain in domains:
         print("     {}".format(domain))
 
