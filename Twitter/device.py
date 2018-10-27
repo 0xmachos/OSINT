@@ -50,7 +50,7 @@ def main():
     username = args.username
     count = args.count
 
-    get_device(auth, username ,count)
+    get_device(auth, username, count)
 
     exit(0)
 
