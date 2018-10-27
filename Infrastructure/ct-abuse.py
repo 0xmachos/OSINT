@@ -32,25 +32,23 @@ def get_subdomains(target_domain):
 
         unique_domains = sorted(set(domains))
 
-        print("  All domains: ")
-        for domain in unique_domains:
-            print("     {}".format(domain))
-
         return unique_domains
 
 
 def check_live(domains):
 
-    print("\n  Live domains (HTTP 200): ")
+    live = []
+
     for domain in domains:
         try:
             if "*" in domain:
                 continue
             if requests.get("https://{}".format(domain)).status_code == 200:
-                print("       {}".format(domain))
+                live.append(domain)
         except requests.exceptions.ConnectionError:
             continue
-    print()
+
+    return live
 
 
 def main():
@@ -58,9 +56,21 @@ def main():
     parser = argparse.ArgumentParser(description="Enumerate HTTPS enabled subdomains via Certificate Transparency")
     parser.add_argument("-t", "--target", action='store', dest='target_domain', required=True,  
                         help="Domain to enumerate")
+    parser.add_argument("-l", "--live", action='store_true',  
+                        help="Also check if domains are live (HTTP 200)")
 
     args = parser.parse_args()
-    check_live(get_subdomains(args.target_domain))
+
+    domains = get_subdomains(args.target_domain)
+    print("  All domains: ")
+    for domain in domains:
+        print("     {}".format(domain))
+
+    if args.live:
+        print("\n  Live domains (HTTP 200): ")
+        live = check_live(domains)
+        for domain in live:
+            print("     {}".format(domain))
 
     exit(0)
 
