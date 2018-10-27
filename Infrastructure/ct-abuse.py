@@ -3,6 +3,7 @@
 
 # ct-abuse.py
 #   Enumerate HTTPS enabled subdomains via Certificate Transparency 
+#   Also checks which domains are live (http)
 
 # Imports
 import sys
@@ -11,7 +12,7 @@ import json
 import argparse
 
 
-def get_subdomains (target_domain):
+def get_subdomains(target_domain):
 
     url = "https://crt.sh/?q=%25.{}&output=json".format(target_domain)
     user_agent = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1'
@@ -31,8 +32,25 @@ def get_subdomains (target_domain):
 
         unique_domains = sorted(set(domains))
 
+        print("  All domains: ")
         for domain in unique_domains:
             print("     {}".format(domain))
+
+        return unique_domains
+
+
+def check_live(domains):
+
+    print("\n  Live domains (HTTP 200): ")
+    for domain in domains:
+        try:
+            if "*" in domain:
+                continue
+            if requests.get("https://{}".format(domain)).status_code == 200:
+                print("       {}".format(domain))
+        except requests.exceptions.ConnectionError:
+            continue
+    print()
 
 
 def main():
@@ -42,7 +60,7 @@ def main():
                         help="Domain to enumerate")
 
     args = parser.parse_args()
-    get_subdomains(args.target_domain)
+    check_live(get_subdomains(args.target_domain))
 
     exit(0)
 
