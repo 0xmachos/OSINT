@@ -10,6 +10,12 @@ import sys
 import requests
 import json
 import argparse
+import signal
+
+
+def ctrl_c(sig, frame):
+    print("\n{} chose to quit via CTRL+C!".format(os.environ['USER']))
+    sys.exit(0)
 
 
 def get_subdomains(target_domain):
@@ -63,6 +69,8 @@ def main():
                         help="Also check if domains are live (HTTP 200)")
 
     args = parser.parse_args()
+
+    signal.signal(signal.SIGINT, ctrl_c)
 
     domains = get_subdomains(args.target_domain)
     print("  All domains: ")
