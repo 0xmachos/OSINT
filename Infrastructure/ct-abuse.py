@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# python-scripts/ct-abuse.py
+# OSINT/Infrastructure/ct-abuse.py
 
 # ct-abuse.py
 #   Enumerate HTTPS enabled subdomains via Certificate Transparency 
