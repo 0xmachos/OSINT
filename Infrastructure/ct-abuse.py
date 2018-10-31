@@ -68,7 +68,6 @@ def main():
                         help="Domain to enumerate")
     parser.add_argument("-l", "--live", action='store_true',  
                         help="Also check if domains are live (HTTP 200)")
-
     args = parser.parse_args()
 
     signal.signal(signal.SIGINT, ctrl_c)
