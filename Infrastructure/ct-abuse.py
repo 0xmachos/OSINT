@@ -54,7 +54,7 @@ def check_live(domains):
             if requests.get("https://{}".format(domain)).status_code == 200:
                 print("     {}".format(domain))
                 count += 1
-        except requests.exceptions.ConnectionError:
+        except Exception:
             continue
     
     if count == 0:
