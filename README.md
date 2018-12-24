@@ -4,22 +4,14 @@ Scripts to automate Open Source Intelligence (OSINT)
 
 ## [Twitter](https://github.com/0xmachos/OSINT/tree/master/Twitter)
 
-### `dump.py`
-- Dump a Twitter users follwers and following 
-
-### `search.py`
-- Search the files created by `dump.py` for a string 
-
-### `device.py`
-- Print a sorted list of the device used to sent a users last 100 tweets
-
-### `birthday.py`
-- Search for tweets to a user which contain 'birthday' or 'bday'
+### [`twitter.py`](https://github.com/0xmachos/OSINT/blob/master/Twitter/twitter.py)
+- Dump and search targets followers and following 
+- Print sorted list of devices used to send targets last 100 tweets
+- Search for tweets to target which contain "birthday" or "bday"
 
 
 ## [Infrastructure](https://github.com/0xmachos/OSINT/tree/master/Infrastructure)
 
-### `ct-abuse.py`
+### [`ct-abuse.py`](https://github.com/0xmachos/OSINT/blob/master/Infrastructure/ct-abuse.py)
 - For the given domain query [Certificate Transparency](https://www.certificate-transparency.org/what-is-ct) to get a list of subdomains which have SSL/TLS certificates issued for them 
-- Usage: `./ct-abuse.py {target_domain}`
 
