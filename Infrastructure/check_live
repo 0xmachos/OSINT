@@ -1,0 +1,109 @@
+#!/usr/bin/env bash
+# OSINT/Infrastructure/check_live
+
+# check_live
+#   Check if URL supplied from a file return HTTP 200
+
+set -o pipefail
+# -u prevent using undefined variables
+# TODO; Enable -u, with set -u if arrays live or down are empty you'll
+#       get an unbound variable error on line 91 (live) or line 100 (down)
+#       https://stackoverflow.com/q/7577052
+# -o pipefail force pipelines to fail on first non-zero status code
+
+IFS=$'\n\t'
+# Set Internal Field Separator to newlines and tabs
+# This makes bash consider newlines and tabs as separating words
+# See: http://redsymbol.net/articles/unofficial-bash-strict-mode/
+
+### Define Colours ###
+tput sgr0; 
+# reset colors
+
+readonly RED="$(tput setaf 1)"
+readonly GREEN=$(tput setaf 64)
+readonly RESET="$(tput sgr0)"
+readonly BOLD="$(tput bold)"
+
+### END Colours ###
+
+
+function usage {
+  echo -e "\\n Check if URLs supplied from a file return HTTP 200\\n"
+  echo -e " Usage: ./check_live urls.txt\\n"
+
+  exit 0
+}
+
+
+### UTILITY FUNCTIONS ###
+# ctrl_c
+
+
+function ctrl_c {
+  echo -e "\\n[❌] ${USER} has chosen to quit!"
+  exit 1
+}
+
+
+### END UTILITY FUNCTIONS ###
+
+
+function process_file {
+
+  while IFS=$'\n' read -r url; do 
+    urls+=("${url}"); 
+  done < "${arg}"
+}
+
+
+function check_url {
+  
+  for url in "${urls[@]}"; do
+    http_status=$(curl -s -L --max-time 5 -o /dev/null -w '%{http_code}' "${url}")
+    
+    if [ "${http_status}" == "200" ]; then
+      live+=("${url}")
+    elif [[ "${http_status}" =~ 4** ]]; then
+      down+=("${url}")
+    elif [ "${http_status}" == "000" ]; then
+      down+=("${url}")
+    fi
+  done
+}
+
+
+function main {
+
+  declare -a urls
+  declare -a live
+  declare -a down
+
+  arg=${1:-"usage"}
+
+  trap ctrl_c SIGINT
+  # Detect and react to the user hitting CTRL + C
+
+  if [[ "${arg}" == "usage" ]]; then
+    usage
+  fi
+
+  process_file
+  check_url
+
+  if [ ${#live[@]} -gt 0 ]; then
+    echo "${GREEN}Live:${RESET}"
+    for url in "${live[@]}"; do
+      echo "  ${BOLD}${url}${RESET}"
+    done
+  fi
+
+  if [ ${#down[@]} -gt 0 ]; then
+    echo "${RED}Down:${RESET}"
+    for url in "${down[@]}"; do
+      echo "  ${BOLD}${url}${RESET}"
+    done
+  fi
+}
+
+main "$@"
