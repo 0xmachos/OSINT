@@ -33,9 +33,10 @@ def get_subdomains(target_domain):
         # https://github.com/PaulSec/crt.sh/blob/5354baac7ba711f1730f64aab56915e230892316/crtsh.py#L41-L42 
 
         domains = []
-
-        for cert in real_json:
-            domains.append(cert['name_value'])
+        
+        for certs in real_json:
+            for cert in certs: 
+                domains.append(cert['name_value'])
 
         unique_domains = sorted(set(domains))
 
