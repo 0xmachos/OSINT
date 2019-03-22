@@ -45,7 +45,7 @@ def get_subdomains(target_domain):
 
 def check_live(domains):
 
-    print("\n  Live domains (HTTP 200): ")
+    print("\nLive")
     count = 0
     
     for domain in domains:
@@ -53,13 +53,13 @@ def check_live(domains):
             if "*" in domain:
                 continue
             if requests.get("https://{}".format(domain)).status_code == 200:
-                print("     {}".format(domain))
+                print("{}".format(domain))
                 count += 1
         except Exception:
             continue
     
     if count == 0:
-        print("     None")
+        print("None")
 
 
 def main():
@@ -74,9 +74,8 @@ def main():
     signal.signal(signal.SIGINT, ctrl_c)
 
     domains = get_subdomains(args.target_domain)
-    print("  All domains ({}): ".format(len(domains)))
     for domain in domains:
-        print("     {}".format(domain))
+        print("{}".format(domain))
 
     if args.live:
         check_live(domains)
