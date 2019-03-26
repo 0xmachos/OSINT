@@ -73,11 +73,12 @@ def main():
     signal.signal(signal.SIGINT, ctrl_c)
 
     domains = get_subdomains(args.target_domain)
-    for domain in domains:
-        print("{}".format(domain))
 
     if args.live:
         check_live(domains)
+    else:
+        for domain in domains:
+            print("{}".format(domain))
 
     exit(0)
 
