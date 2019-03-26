@@ -45,7 +45,6 @@ def get_subdomains(target_domain):
 
 def check_live(domains):
 
-    print("\nLive")
     count = 0
     
     for domain in domains:
