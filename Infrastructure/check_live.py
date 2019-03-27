@@ -2,7 +2,8 @@
 # OSINT/Infrastructure/check_live.py
 
 # check_live.py
-# Check if a supplied list of Domains are live (HTTP 200)
+#   Check if a supplied list of Domains are live (HTTP 200)
+
 
 # Imports
 import argparse
